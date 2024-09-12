@@ -8,6 +8,7 @@ const app = express();
 const session = require("express-session");
 const flash = require("connect-flash");
 const mongoose = require("mongoose");
+const MongoStore = require('connect-mongo');
 const studentModel = require("./models/studentModel");
 const dburl = process.env.ATLASDB_URL;
 
@@ -19,7 +20,14 @@ app.use(express.urlencoded({extended: true}));
 const sessionOption = {
     secret: "abcd",
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: MongoStore.create({
+        mongoUrl: dburl,
+        crypto: {
+            secret: "secret"
+        },
+        touchAfter: 24 * 3600
+    }),
 }
 
 app.use(session(sessionOption));
