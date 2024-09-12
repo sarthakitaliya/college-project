@@ -61,11 +61,12 @@ app.get("/as", (req, res) => {
 })
 app.post("/data", async(req, res) => {
     console.log(req.body);
-    let {name, rollno, address, cname} = req.body;
+    let {name, rollno, email, address, cname} = req.body;
     let newStudent = new studentModel({
         name,
         rollno,
         address,
+        email,
         courseName: cname
     })
     await newStudent.save();
